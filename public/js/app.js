@@ -17,7 +17,7 @@ weatherForm.addEventListener('submit', (e) => {
     const localita = ricerca.value;
     console.clear();
 //    if (localita) {
-                    fetch('http://localhost:3000/weather?address=' + localita).then( (response) => {
+                    fetch('https://fasulo-node-webservernodeapp.onrender.com:3000/weather?address=' + localita).then( (response) => {
                         response.json().then( (dati) => {
 
                             if (dati.error) {
