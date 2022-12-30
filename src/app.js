@@ -7,6 +7,9 @@ const forecast = require('./utils/forecast')
 // handlebars module... serve per i partials template files
 const hbs = require('hbs')
 
+// 
+const PORT = process.env.PORT || 3000;
+
 
 // path della directory e del file... completi ad es. C:\xampp\htdocs\node-course
 // console.log(__dirname)
@@ -171,7 +174,7 @@ app.get('*', (req, res)=> {
 
 
 // listen su porta 3000
-app.listen(3000, () => {
+app.listen(PORT, () => {
     console.log('Server listen on port 3000')
 })
 
