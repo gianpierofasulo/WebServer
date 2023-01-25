@@ -7,6 +7,10 @@ const forecast = require('./utils/forecast')
 // handlebars module... serve per i partials template files
 const hbs = require('hbs')
 
+var http = require('http');
+var fs = require('fs');
+var formidable = require('formidable');
+
 // 
 const PORT = process.env.PORT || 3000;
 
@@ -154,12 +158,49 @@ app.get('/weather', (req, res)=> {
 
 // intercetto tutte le richieste dopo /help
 app.get('/help/*', (req, res)=> {
-    res.render('404help', {
+    res.render('help', {
        
         title: 'PAGINA DI HELP NON TROVATA',
         name: 'Gianpiero Fasulo'
     })
 })
+
+
+app.get('/upload', (req, res)=> {
+    res.render('upload', {
+       
+        title: 'PAGINA DI UPLOAD',
+        name: 'Gianpiero Fasulo'
+    })
+})
+
+app.post('/fileupload', (req, res, next) => {
+    
+
+    if (req.url == '/fileupload') {
+        var form = new formidable.IncomingForm();
+        form.parse(req, function (err, fields, files) {
+          var oldpath = files.filetoupload.filepath;
+          var newpath = 'C:/xampp74/htdocs/node-course/web-server/' + files.filetoupload.originalFilename;
+          fs.rename(oldpath, newpath, function (err) {
+            if (err) throw err;
+            res.write('File uploaded and moved!' + newpath );
+            res.end();
+          });
+     });
+    }
+  
+  /*    const form = formidable({ multiples: true }); 
+    form.parse(req, (err, fields, files) => {
+      if (err) {
+        next(err);
+        return;
+      }
+      res.json({ fields, files });
+    }); */
+
+  });
+
 
 // Gestione di tutte le url non definite, si usa l'asterisco come path per prendere tutte le URL non esistenti
 app.get('*', (req, res)=> {
@@ -169,6 +210,7 @@ app.get('*', (req, res)=> {
         name: 'Gianpiero Fasulo'
     })
 })
+
 
 
 
